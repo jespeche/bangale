@@ -1,47 +1,44 @@
 package com.training.project.service.model
 
+import com.training.project.service.model.Currency.DOLLAR
 import java.util.UUID
-import javax.persistence.*
+import javax.persistence.Embeddable
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
 
-/**
- * Model for Product class. It consists of functions to handle products and changes to the attributes of products.
- */
 @Entity
 data class Product(
-        @Column(name="name")
         var name: String = "",
-        @Column(name="price")
-        var price: Price = Price("USD", 0),
-        @Id @GeneratedValue @Column(name="productId")
+        var price: Price = Price(DOLLAR, 0),
+        @Id @GeneratedValue
         val productId: UUID = UUID.randomUUID()
 ) {
-    /**
-     * Function to increase the price of the given product by the given percentage. It verifies if it has received valid arguments to consider the proposed change.
-     */
-    fun increasePrice(productId: UUID, percentage: Int) {
-        if(percentage != 0){
-            this.price.amount += price.amount * (percentage / 100)
-        }
-    }
 
-    /**
-     * Function to decrease the price of the given product by the given percentage. It verifies if it has received valid arguments to consider the proposed change.
-     */
-    fun decreasePrice(productId: UUID, percentage: Int) {
-        if(percentage != 0){
-            this.price.amount -= price.amount * (percentage / 100)
-        }
-    }
-
-    /**
-     * Function to rename the given product. It verifies if it has received valid arguments to consider the proposed change.
-     */
-    fun renameProduct(productId: UUID, name: String){
-        if(this.name != name){
+    fun rename(name: String) {
+        if (this.name != name) {
             this.name = name
+        }
+    }
+
+    fun setPrice() = println()
+
+    fun increasePrice(percentage: Int) {
+        if (percentage != 0) {
+            val amount = price.amount * (1 + percentage / 100)
+            price = Price(price.currency, amount)
+        }
+    }
+
+    fun decreasePrice(percentage: Int) {
+        if (percentage != 0) {
+            val amount = price.amount * (1 - percentage / 100)
+            price = Price(price.currency, amount)
         }
     }
 }
 
-@Entity
-data class Price(val currency: String, var amount: Int)
+@Embeddable
+data class Price(val currency: Currency, val amount: Int)
+
+enum class Currency { DOLLAR, PESOS, RUPEES }
