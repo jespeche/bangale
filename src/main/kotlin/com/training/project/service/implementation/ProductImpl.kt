@@ -59,7 +59,7 @@ class ProductImplementation(private val repository: ProductRepository) : Product
      */
     override fun renameProduct(productId: UUID, name: String) {
         var foundProduct = product(productId)
-        foundProduct.renameProduct(productId, name)
+        foundProduct.rename(productId, name)
         repository.save(foundProduct)
 
         //ToDo() Mutation function for optimization
