@@ -6,6 +6,7 @@ plugins {
     kotlin("plugin.jpa") version "1.3.41"
     kotlin("jvm") version "1.3.41"
     kotlin("plugin.spring") version "1.3.41"
+    jacoco
 }
 
 group = "com.training"
@@ -59,3 +60,32 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+jacoco {
+    toolVersion = "0.8.4"
+}
+
+tasks.withType<JacocoReport> {
+    reports {
+        xml.isEnabled = false
+        csv.isEnabled = false
+        html.isEnabled = true
+        html.destination = file("$buildDir/reports/coverage")
+    }
+}
+
+tasks.withType<JacocoCoverageVerification> {
+    val jacocoCoverageVerification = this
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.8".toBigDecimal()
+            }
+        }
+    }
+
+    tasks.named("check") {
+        dependsOn(jacocoCoverageVerification)
+    }
+}
+
