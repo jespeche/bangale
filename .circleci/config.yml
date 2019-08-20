@@ -39,5 +39,5 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle.kts" }}
 
-      # run tests!
-      - run: ./gradlew test
+      # run check (https://i.stack.imgur.com/M8hjb.png)
+      - run: ./gradlew check
