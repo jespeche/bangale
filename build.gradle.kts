@@ -50,42 +50,44 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools") { because("Fast reload and H2 console") }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
-    }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
 jacoco {
     toolVersion = "0.8.4"
 }
 
-tasks.withType<JacocoReport> {
-    reports {
-        xml.isEnabled = false
-        csv.isEnabled = false
-        html.isEnabled = true
-        html.destination = file("$buildDir/reports/coverage")
-    }
-}
+tasks {
 
-tasks.withType<JacocoCoverageVerification> {
-    val jacocoCoverageVerification = this
-    violationRules {
-        rule {
-            limit {
-                minimum = "0.8".toBigDecimal()
-            }
+    withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = "1.8"
         }
     }
 
-    tasks.named("check") {
-        dependsOn(jacocoCoverageVerification)
+    withType<Test> {
+        useJUnitPlatform()
+    }
+
+    withType<JacocoReport> {
+        reports {
+            xml.isEnabled = false
+            csv.isEnabled = false
+            html.isEnabled = true
+            html.destination = file("$buildDir/reports/coverage")
+        }
+
+        withType<JacocoCoverageVerification> {
+            val jacocoCoverageVerification = this
+            violationRules {
+                rule {
+                    limit {
+                        minimum = "0.8".toBigDecimal()
+                    }
+                }
+            }
+
+            named("check") {
+                dependsOn(jacocoCoverageVerification)
+            }
+        }
     }
 }
-
