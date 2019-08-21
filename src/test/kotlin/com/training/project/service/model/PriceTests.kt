@@ -15,7 +15,7 @@ class PriceTests {
     }
 
     @Test
-    fun `Check price increment`() {
+    fun `Check Price increment`() {
         val price = Price(DOLLAR, 10.0)
         val incrementedPercentage = price.applyPercentage(10.0)
         assertThat(price).isNotEqualTo(incrementedPercentage)
@@ -23,13 +23,12 @@ class PriceTests {
     }
 
     @Test
-    fun `Check price decrement`() {
+    fun `Check Price decrement`() {
         val price = Price(DOLLAR, 10.0)
         val decrementedPercentage = price.applyPercentage(-10.0)
         assertThat(price).isNotEqualTo(decrementedPercentage)
         assertThat(decrementedPercentage.amount).isEqualTo(9.0)
     }
-
 
 
 }

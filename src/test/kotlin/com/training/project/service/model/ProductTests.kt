@@ -18,7 +18,7 @@ class ProductTests {
     }
 
     @Test
-    fun `Check rename a product`() {
+    fun `Check rename a Product`() {
         Product().apply {
             rename("NEW_NAME")
             assertThat(name).isEqualTo("NEW_NAME")
@@ -26,52 +26,52 @@ class ProductTests {
     }
 
     @Test
-    fun `Check product can not be renamed to empty string`() {
+    fun `Check Product cannot be renamed to empty string`() {
         Product().apply {
             assertThrows<IllegalArgumentException> { rename("") }
         }
     }
 
     @Test
-    fun `Check product price increase percentage is greater than zero`(){
-        Product("Laptop", Price(DOLLAR, 100.0)).apply{
+    fun `Check Product price increase percentage is greater than zero`() {
+        Product("Laptop", Price(DOLLAR, 100.0)).apply {
             assertThrows<IllegalArgumentException> { increasePrice(0.0) }
         }
     }
 
     @Test
-    fun `Check product price increased`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply{
+    fun `Check Product price increased`() {
+        Product("Laptop", Price(DOLLAR, 100.0)).apply {
             increasePrice(50.0)
             assertThat(price).isEqualTo(Price(DOLLAR, 150.0))
         }
     }
 
     @Test
-    fun `Check product price decrease percentage is greater than zero`(){
-        Product("Laptop", Price(DOLLAR, 100.0)).apply{
+    fun `Check Product price decrease percentage is greater than zero`() {
+        Product("Laptop", Price(DOLLAR, 100.0)).apply {
             assertThrows<IllegalArgumentException> { decreasePrice(0.0) }
         }
     }
 
     @Test
-    fun `Check product price decreased`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply{
+    fun `Check Product price decreased`() {
+        Product("Laptop", Price(DOLLAR, 100.0)).apply {
             decreasePrice(50.0)
             assertThat(price).isEqualTo(Price(DOLLAR, 50.0))
         }
     }
 
     @Test
-    fun `Check set price is greater than zero`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply{
+    fun `Check Product set price is greater than zero`() {
+        Product("Laptop", Price(DOLLAR, 100.0)).apply {
             assertThrows<IllegalArgumentException> { setPrice(RUPEES, 0.0) }
         }
     }
 
     @Test
-    fun `Check set price`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply{
+    fun `Check Product set price`() {
+        Product("Laptop", Price(DOLLAR, 100.0)).apply {
             setPrice(RUPEES, 50.0)
             assertThat(price).isEqualTo(Price(RUPEES, 50.0))
         }
