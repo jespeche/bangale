@@ -26,7 +26,7 @@ class ProductServiceIntegrationTests(@Autowired val service: ProductService) {
 
     @Test
     fun `Check attributes of registered products`() {
-        assertThat(service.product(product.productId).equals(product))
+        assertThat(service.product(product.productId)).isEqualTo(product)
     }
 
     @Test

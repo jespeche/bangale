@@ -21,7 +21,7 @@ import java.util.Optional
 
 class ProductServiceEventsTests {
 
-    lateinit var service: ProductService
+    private lateinit var service: ProductService
 
     private val repository: ProductRepository = mock()
     private val publisher: ApplicationEventPublisher = mock()

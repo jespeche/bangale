@@ -6,11 +6,7 @@ import com.training.project.service.model.Price
 import com.training.project.service.model.Product
 import com.training.project.service.model.ProductDeregistered
 import com.training.project.service.model.ProductEvent
-import com.training.project.service.model.ProductPriceDecreased
-import com.training.project.service.model.ProductPriceIncreased
-import com.training.project.service.model.ProductPriceSet
 import com.training.project.service.model.ProductRegistered
-import com.training.project.service.model.ProductRenamed
 import com.training.project.service.model.ProductRepository
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
