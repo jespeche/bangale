@@ -3,11 +3,18 @@ package com.training.project.service.model
 import com.training.project.service.model.Currency.DOLLAR
 import com.training.project.service.model.Currency.RUPEES
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.lang.IllegalArgumentException
 
 class ProductTests {
+
+    private lateinit var product: Product
+
+    @BeforeEach
+    fun setUp() {
+        product = Product("Laptop", Price(DOLLAR, 100.0))
+    }
 
     @Test
     fun `Check Product instantiation`() {
@@ -34,14 +41,14 @@ class ProductTests {
 
     @Test
     fun `Check Product price increase percentage is greater than zero`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply {
+        product.apply {
             assertThrows<IllegalArgumentException> { increasePrice(0.0) }
         }
     }
 
     @Test
     fun `Check Product price increased`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply {
+        product.apply {
             increasePrice(50.0)
             assertThat(price).isEqualTo(Price(DOLLAR, 150.0))
         }
@@ -49,14 +56,14 @@ class ProductTests {
 
     @Test
     fun `Check Product price decrease percentage is greater than zero`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply {
+        product.apply {
             assertThrows<IllegalArgumentException> { decreasePrice(0.0) }
         }
     }
 
     @Test
     fun `Check Product price decreased`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply {
+        product.apply {
             decreasePrice(50.0)
             assertThat(price).isEqualTo(Price(DOLLAR, 50.0))
         }
@@ -64,17 +71,16 @@ class ProductTests {
 
     @Test
     fun `Check Product set price is greater than zero`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply {
+        product.apply {
             assertThrows<IllegalArgumentException> { setPrice(RUPEES, 0.0) }
         }
     }
 
     @Test
     fun `Check Product set price`() {
-        Product("Laptop", Price(DOLLAR, 100.0)).apply {
+        product.apply {
             setPrice(RUPEES, 50.0)
             assertThat(price).isEqualTo(Price(RUPEES, 50.0))
         }
     }
-
 }

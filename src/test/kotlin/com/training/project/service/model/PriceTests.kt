@@ -29,6 +29,4 @@ class PriceTests {
         assertThat(price).isNotEqualTo(decrementedPercentage)
         assertThat(decrementedPercentage.amount).isEqualTo(9.0)
     }
-
-
 }
