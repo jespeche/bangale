@@ -8,8 +8,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class ProductServiceIntegrationTests(@Autowired val service: ProductService) {
 
     private lateinit var product: Product
