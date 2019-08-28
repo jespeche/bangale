@@ -1,5 +1,85 @@
-#type Query {
-#}
+type Query {
+#    product(productId: ID!) : Product
+#    products : [Product!]!
+}
 
-#type Mutation {
-#}
+type Mutation {
+#    registerProduct(input: RegisterProductInput!) : RegisterProductPayload!
+#     deregisterProduct(input: DeregisterProductInput!) : DeregisterProductPayload!
+#    increaseProductPrice(input: increaseProductPriceInput!) : increaseProductPricePayload!
+    #    decreaseProductPrice(input: decreaseProductPriceInput!) : decreaseProductPricePayload!
+    #setProductPrice(input: setProductPriceInput!) : setProductPricePayload!
+    #renameProduct(input: renameProductInput!) : renameProductPayload!
+}
+
+input RegisterProductInput {
+    name: String!
+    currency: Currency!
+    amount: Float!
+}
+
+type RegisterProductPayload {
+    product: Product!
+}
+
+input DeregisterProductInput {
+    productId: ID!
+}
+
+type DeregisterProductPayload {
+    product: Product!
+}
+
+input increaseProductPriceInput {
+    productId: ID!
+    percentage: Float!
+}
+
+type increaseProductPricePayload {
+    product: Product!
+}
+
+input decreaseProductPriceInput {
+    productId: ID!
+    percentage: Float!
+}
+
+type decreaseProductPricePayload {
+    product: Product!
+}
+
+input setProductPriceInput {
+    productId: ID!
+    currency: Currency!
+    amount: Float!
+}
+
+type setProductPricePayload {
+    product: Product!
+}
+
+input renameProductInput {
+    productId: ID!
+    name: String!
+}
+
+type renameProductPayload {
+    product: Product!
+}
+
+type Product {
+    productId: ID!
+    name: String!
+    price: Price!
+}
+
+type Price {
+    currency: Currency!
+    amount: Float!
+}
+
+enum Currency {
+    DOLLAR
+    PESOS
+    RUPEES
+}

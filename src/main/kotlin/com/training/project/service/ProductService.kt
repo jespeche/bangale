@@ -9,8 +9,8 @@ interface ProductService {
     fun products(): List<Product>
     fun registerProduct(name: String, currency: Currency, amount: Double): Product
     fun deregisterProduct(productId: UUID)
-    fun setPrice(productId: UUID, currency: Currency, amount: Double)
-    fun increasePrice(productId: UUID, percentage: Double)
-    fun decreasePrice(productId: UUID, percentage: Double)
-    fun renameProduct(productId: UUID, name: String)
+    fun renameProduct(productId: UUID, name: String): Product
+    fun setPrice(productId: UUID, currency: Currency, amount: Double): Product
+    fun increasePrice(productId: UUID, percentage: Double): Product
+    fun decreasePrice(productId: UUID, percentage: Double): Product
 }
