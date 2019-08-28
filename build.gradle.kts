@@ -48,17 +48,22 @@ dependencies {
     implementation("com.graphql-java:graphql-java:13.0")
     implementation("com.graphql-java:graphql-java-extended-scalars:1.0")
 
+    implementation("org.springframework.kafka:spring-kafka")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+
     runtimeOnly("com.graphql-java-kickstart:graphiql-spring-boot-starter:5.10.0") { because("Embedded Graphql IDE") }
     runtimeOnly("com.graphql-java-kickstart:voyager-spring-boot-starter:5.10.0") { because("Embedded schema navigation") }
     runtimeOnly("com.h2database:h2") { because("In memory database") }
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
+    testImplementation("com.graphql-java-kickstart:graphql-spring-boot-starter-test:5.10.0")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.3.1")
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
     testImplementation("org.assertj:assertj-core:3.12.2")
+
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
-    testImplementation("com.graphql-java-kickstart:graphql-spring-boot-starter-test:5.10.0")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools") { because("Fast reload and H2 console") }
 }
