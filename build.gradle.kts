@@ -1,8 +1,20 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0")
+    }
+}
 
 plugins {
     id("org.springframework.boot") version "2.1.7.RELEASE"
     id("io.spring.dependency-management") version "1.0.7.RELEASE"
+    id("com.palantir.docker") version "0.13.0"
+    id("com.palantir.docker-run") version "0.13.0"
     kotlin("plugin.jpa") version "1.3.50"
     kotlin("jvm") version "1.3.50"
     kotlin("plugin.spring") version "1.3.50"
@@ -91,4 +103,25 @@ tasks {
             }
         }
     }
+
+    create<Copy>("unpack") {
+        val bootJar = getByName<BootJar>("bootJar")
+        dependsOn(setOf(bootJar))
+        from(zipTree(bootJar.outputs.files.singleFile))
+        into("build/dependency")
+    }
+}
+
+docker {
+    val unpack = tasks.getByName<Copy>("unpack")
+    name = "bangale/products-service:latest"
+    copySpec.from(unpack.outputs).into("dependency")
+    buildArgs(mapOf("DEPENDENCY" to "dependency"))
+}
+
+dockerRun {
+    name = "products-service"
+    image = "bangale/products-service:latest"
+    ports("8080:8080")
+    daemonize = true
 }
