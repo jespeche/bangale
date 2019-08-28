@@ -123,5 +123,5 @@ dockerRun {
     name = "products-service"
     image = "bangale/products-service:latest"
     ports("8080:8080")
-    daemonize = true
+    daemonize = false
 }
