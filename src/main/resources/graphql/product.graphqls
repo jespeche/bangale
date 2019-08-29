@@ -1,15 +1,15 @@
 type Query {
-#    product(productId: ID!) : Product
-#    products : [Product!]!
+    product(id: ID!) : Product
+    products : [Product!]!
 }
 
 type Mutation {
-#    registerProduct(input: RegisterProductInput!) : RegisterProductPayload!
-#     deregisterProduct(input: DeregisterProductInput!) : DeregisterProductPayload!
-#    increaseProductPrice(input: increaseProductPriceInput!) : increaseProductPricePayload!
-    #    decreaseProductPrice(input: decreaseProductPriceInput!) : decreaseProductPricePayload!
-    #setProductPrice(input: setProductPriceInput!) : setProductPricePayload!
-    #renameProduct(input: renameProductInput!) : renameProductPayload!
+    registerProduct(input: RegisterProductInput!) : RegisterProductPayload!
+    deregisterProduct(input: DeregisterProductInput!) : DeregisterProductPayload!
+    increaseProductPrice(input: IncreaseProductPriceInput!) : IncreaseProductPricePayload!
+    decreaseProductPrice(input: DecreaseProductPriceInput!) : DecreaseProductPricePayload!
+    setProductPrice(input: SetProductPriceInput!) : SetProductPricePayload!
+    renameProduct(input: RenameProductInput!) : RenameProductPayload!
 }
 
 input RegisterProductInput {
@@ -23,52 +23,52 @@ type RegisterProductPayload {
 }
 
 input DeregisterProductInput {
-    productId: ID!
+    id: ID!
 }
 
 type DeregisterProductPayload {
     product: Product!
 }
 
-input increaseProductPriceInput {
-    productId: ID!
+input IncreaseProductPriceInput {
+    id: ID!
     percentage: Float!
 }
 
-type increaseProductPricePayload {
+type IncreaseProductPricePayload {
     product: Product!
 }
 
-input decreaseProductPriceInput {
-    productId: ID!
+input DecreaseProductPriceInput {
+    id: ID!
     percentage: Float!
 }
 
-type decreaseProductPricePayload {
+type DecreaseProductPricePayload {
     product: Product!
 }
 
-input setProductPriceInput {
-    productId: ID!
+input SetProductPriceInput {
+    id: ID!
     currency: Currency!
     amount: Float!
 }
 
-type setProductPricePayload {
+type SetProductPricePayload {
     product: Product!
 }
 
-input renameProductInput {
-    productId: ID!
+input RenameProductInput {
+    id: ID!
     name: String!
 }
 
-type renameProductPayload {
+type RenameProductPayload {
     product: Product!
 }
 
 type Product {
-    productId: ID!
+    id: ID!
     name: String!
     price: Price!
 }
