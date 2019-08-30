@@ -35,18 +35,18 @@ class ProductServiceEventsIntegrationTests(@Autowired val service: ProductServic
         val argumentCaptor = argumentCaptor<ProductRegistered>()
         verify(eventHandler).handleProductRegistered(argumentCaptor.capture())
 
-        val expected = ProductRegistered(product.productId, "Mobile", Price(RUPEES, 100.0))
+        val expected = ProductRegistered(product.id, "Mobile", Price(RUPEES, 100.0))
         assertThat(argumentCaptor.lastValue).isEqualTo(expected)
     }
 
     @Test
     fun `Check Product price set event was triggered with right attributes`() {
-        service.setPrice(product.productId, DOLLAR, 50.0)
+        service.setProductPrice(product.id, DOLLAR, 50.0)
 
         val argumentCaptor = argumentCaptor<ProductPriceSet>()
         verify(eventHandler).handleProductPriceSet(argumentCaptor.capture())
 
-        val expected = ProductPriceSet(product.productId, Price(DOLLAR, 50.0), Price(RUPEES, 100.0))
+        val expected = ProductPriceSet(product.id, Price(DOLLAR, 50.0), Price(RUPEES, 100.0))
         assertThat(argumentCaptor.lastValue).isEqualTo(expected)
     }
 }

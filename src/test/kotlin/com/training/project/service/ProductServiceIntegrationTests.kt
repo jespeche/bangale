@@ -22,12 +22,12 @@ class ProductServiceIntegrationTests(@Autowired val service: ProductService) {
 
     @Test
     fun `Check Product registration`() {
-        assertThat(service.product(product.productId)).isNotNull
+        assertThat(service.product(product.id)).isNotNull
     }
 
     @Test
     fun `Check attributes of registered products`() {
-        assertThat(service.product(product.productId)).isEqualTo(product)
+        assertThat(service.product(product.id)).isEqualTo(product)
     }
 
     @Test
@@ -37,7 +37,7 @@ class ProductServiceIntegrationTests(@Autowired val service: ProductService) {
 
     @Test
     fun `Check Product deregistration`() {
-        service.deregisterProduct(product.productId)
-        assertThrows<NoSuchElementException> { service.product(product.productId) }
+        service.deregisterProduct(product.id)
+        assertThrows<NoSuchElementException> { service.product(product.id) }
     }
 }

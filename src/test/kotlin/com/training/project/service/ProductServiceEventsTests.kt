@@ -41,7 +41,7 @@ class ProductServiceEventsTests {
 
         service.registerProduct("Camera", DOLLAR, 100.0)
 
-        val expectedEvent = ProductRegistered(product.productId, product.name, product.price)
+        val expectedEvent = ProductRegistered(product.id, product.name, product.price)
         assertThat(argumentCaptor<ProductRegistered>().getIt()).isEqualTo(expectedEvent)
     }
 
@@ -49,9 +49,9 @@ class ProductServiceEventsTests {
     fun `Check Product deregistration event`() {
         whenever(repository.findById(any())).thenReturn(Optional.of(product))
 
-        service.deregisterProduct(product.productId)
+        service.deregisterProduct(product.id)
 
-        val expectedEvent = ProductDeregistered(product.productId)
+        val expectedEvent = ProductDeregistered(product.id)
         assertThat(argumentCaptor<ProductDeregistered>().getIt()).isEqualTo(expectedEvent)
     }
 

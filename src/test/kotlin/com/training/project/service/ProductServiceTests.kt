@@ -33,7 +33,7 @@ class ProductServiceTests {
     @Test
     fun `Check Product is retrieved`() {
         whenever(repository.findById(any())).thenReturn(Optional.of(expectedProduct))
-        val product = service.product(expectedProduct.productId)
+        val product = service.product(expectedProduct.id)
 
         assertThat(product).isNotNull
         assertThat(product).isEqualTo(expectedProduct)
@@ -76,8 +76,8 @@ class ProductServiceTests {
         whenever(repository.findById(any())).thenReturn(Optional.of(expectedProduct))
         whenever(repository.save(any<Product>())).then(returnsFirstArg<Product>())
 
-        service.setPrice(expectedProduct.productId, PESOS, 100.0)
-        assertThat(service.product(expectedProduct.productId).price).isEqualTo(expectedProduct.price)
+        service.setProductPrice(expectedProduct.id, PESOS, 100.0)
+        assertThat(service.product(expectedProduct.id).price).isEqualTo(expectedProduct.price)
     }
 
     @Test
@@ -85,8 +85,8 @@ class ProductServiceTests {
         whenever(repository.findById(any())).thenReturn(Optional.of(expectedProduct))
         whenever(repository.save(any<Product>())).then(returnsFirstArg<Product>())
 
-        service.setPrice(expectedProduct.productId, PESOS, 50.0)
-        assertThrows<IllegalArgumentException> { service.setPrice(expectedProduct.productId, PESOS, -100.0) }
+        service.setProductPrice(expectedProduct.id, PESOS, 50.0)
+        assertThrows<IllegalArgumentException> { service.setProductPrice(expectedProduct.id, PESOS, -100.0) }
     }
 
     @Test
@@ -94,9 +94,9 @@ class ProductServiceTests {
         whenever(repository.findById(any())).thenReturn(Optional.of(expectedProduct))
         whenever(repository.save(any<Product>())).then(returnsFirstArg<Product>())
 
+        service.increaseProductPrice(expectedProduct.id, 50.0)
         val expectedChangedProduct = Product("Robot", Price(PESOS, 150.0))
-        service.increasePrice(expectedProduct.productId, 50.0)
-        assertThat(service.product(expectedProduct.productId).price).isEqualTo(expectedChangedProduct.price)
+        assertThat(service.product(expectedProduct.id).price).isEqualTo(expectedChangedProduct.price)
     }
 
     @Test
@@ -104,7 +104,7 @@ class ProductServiceTests {
         whenever(repository.findById(any())).thenReturn(Optional.of(expectedProduct))
         whenever(repository.save(any<Product>())).then(returnsFirstArg<Product>())
 
-        assertThrows<IllegalArgumentException> { service.increasePrice(expectedProduct.productId, -100.0) }
+        assertThrows<IllegalArgumentException> { service.increaseProductPrice(expectedProduct.id, -100.0) }
     }
 
     @Test
@@ -113,8 +113,8 @@ class ProductServiceTests {
         whenever(repository.save(any<Product>())).then(returnsFirstArg<Product>())
 
         val expectedChangedProduct = Product("Robot", Price(PESOS, 50.0))
-        service.decreasePrice(expectedProduct.productId, 50.0)
-        assertThat(service.product(expectedProduct.productId).price).isEqualTo(expectedChangedProduct.price)
+        service.decreaseProductPrice(expectedProduct.id, 50.0)
+        assertThat(service.product(expectedProduct.id).price).isEqualTo(expectedChangedProduct.price)
     }
 
     @Test
@@ -122,7 +122,7 @@ class ProductServiceTests {
         whenever(repository.findById(any())).thenReturn(Optional.of(expectedProduct))
         whenever(repository.save(any<Product>())).then(returnsFirstArg<Product>())
 
-        assertThrows<IllegalArgumentException> { service.decreasePrice(expectedProduct.productId, -100.0) }
+        assertThrows<IllegalArgumentException> { service.decreaseProductPrice(expectedProduct.id, -100.0) }
     }
 
     @Test
@@ -131,8 +131,8 @@ class ProductServiceTests {
         whenever(repository.save(any<Product>())).then(returnsFirstArg<Product>())
 
         val expectedChangedProduct = Product("Mouse", Price(PESOS, 100.0))
-        service.renameProduct(expectedProduct.productId, "Mouse")
-        assertThat(service.product(expectedProduct.productId).name).isEqualTo(expectedChangedProduct.name)
+        service.renameProduct(expectedProduct.id, "Mouse")
+        assertThat(service.product(expectedProduct.id).name).isEqualTo(expectedChangedProduct.name)
     }
 
     @Test
@@ -140,6 +140,6 @@ class ProductServiceTests {
         whenever(repository.findById(any())).thenReturn(Optional.of(expectedProduct))
         whenever(repository.save(any<Product>())).then(returnsFirstArg<Product>())
 
-        assertThrows<IllegalArgumentException> { service.renameProduct(expectedProduct.productId, "") }
+        assertThrows<IllegalArgumentException> { service.renameProduct(expectedProduct.id, "") }
     }
 }

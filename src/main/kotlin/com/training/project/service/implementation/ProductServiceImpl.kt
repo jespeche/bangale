@@ -17,39 +17,20 @@ import javax.transaction.Transactional
 @Transactional
 class ProductServiceImpl(private val repository: ProductRepository, private val publish: ApplicationEventPublisher) : ProductService {
 
-    override fun product(productId: UUID): Product = repository.findById(productId).get()
+    override fun product(id: UUID): Product = repository.findById(id).get()
     override fun products(): List<Product> = repository.findAll().toList()
 
-    override fun registerProduct(name: String, currency: Currency, amount: Double): Product = repository.save(Product(name, Price(currency, amount))).also { publish(ProductRegistered(it.productId, it.name, it.price)) }
+    override fun registerProduct(name: String, currency: Currency, amount: Double): Product = repository.save(Product(name, Price(currency, amount))).also { publish(ProductRegistered(it.id, it.name, it.price)) }
+    override fun deregisterProduct(id: UUID) = repository.deleteById(id).also { publish(ProductDeregistered(id)) }
+    override fun renameProduct(id: UUID, name: String): Product = mutate(id) { it.rename(name) }
+    override fun setProductPrice(id: UUID, currency: Currency, amount: Double): Product = mutate(id) { it.setPrice(currency, amount) }
+    override fun increaseProductPrice(id: UUID, percentage: Double): Product = mutate(id) { it.increasePrice(percentage) }
+    override fun decreaseProductPrice(id: UUID, percentage: Double): Product = mutate(id) { it.decreasePrice(percentage) }
 
-    override fun deregisterProduct(productId: UUID) = repository.deleteById(productId).also { publish(ProductDeregistered(productId)) }
-
-    override fun setPrice(productId: UUID, currency: Currency, amount: Double) {
-        val product = product(productId)
-        product.setPrice(currency, amount)
-        repository.save(product)
-        //ToDo() Mutation function for optimization
-    }
-
-    override fun increasePrice(productId: UUID, percentage: Double) {
-        val foundProduct = product(productId)
-        foundProduct.increasePrice(percentage)
-        repository.save(foundProduct)
-        //ToDo() Mutation function for optimization
-    }
-
-    override fun decreasePrice(productId: UUID, percentage: Double) {
-        val foundProduct = product(productId)
-        foundProduct.decreasePrice(percentage)
-        repository.save(foundProduct)
-        //ToDo() Mutation function for optimization
-    }
-
-    override fun renameProduct(productId: UUID, name: String) {
-        val foundProduct = product(productId)
-        foundProduct.rename(name)
-        repository.save(foundProduct)
-        //ToDo() Mutation function for optimization
+    private fun mutate(id: UUID, mutation: (Product) -> Unit): Product {
+        val product = product(id)
+        mutation(product)
+        return repository.save(product)
     }
 
     private fun publish(event: ProductEvent) = publish.publishEvent(event)

@@ -31,7 +31,7 @@ class ProductEventTests {
     fun `Check Product price set event was triggered with right attributes`() {
         val oldPrice = Price(RUPEES, 100.0)
         product.setPrice(DOLLAR, 50.0)
-        val expectedEvent = ProductPriceSet(product.productId, product.price, oldPrice)
+        val expectedEvent = ProductPriceSet(product.id, product.price, oldPrice)
         assertThat(product.domainEvents().first()).isEqualTo(expectedEvent)
     }
 
@@ -51,7 +51,7 @@ class ProductEventTests {
     fun `Check Product renamed event was triggered with right attributes`() {
         val oldName = "Mobile"
         product.rename("NewMobile")
-        val expectedEvent = ProductRenamed(product.productId, product.name, oldName)
+        val expectedEvent = ProductRenamed(product.id, product.name, oldName)
         assertThat(product.domainEvents().first()).isEqualTo(expectedEvent)
     }
 
@@ -65,7 +65,7 @@ class ProductEventTests {
     fun `Check Product price increased event was triggered with right attributes`() {
         val oldPrice = Price(RUPEES, 100.0)
         product.increasePrice(50.0)
-        val expectedEvent = ProductPriceIncreased(product.productId, product.price, oldPrice)
+        val expectedEvent = ProductPriceIncreased(product.id, product.price, oldPrice)
         assertThat(product.domainEvents().first()).isEqualTo(expectedEvent)
     }
 
@@ -79,7 +79,7 @@ class ProductEventTests {
     fun `Check Product price decreased event was triggered with right attributes`() {
         val oldPrice = Price(RUPEES, 100.0)
         product.decreasePrice(50.0)
-        val expectedEvent = ProductPriceDecreased(product.productId, product.price, oldPrice)
+        val expectedEvent = ProductPriceDecreased(product.id, product.price, oldPrice)
         assertThat(product.domainEvents().first()).isEqualTo(expectedEvent)
     }
 }
